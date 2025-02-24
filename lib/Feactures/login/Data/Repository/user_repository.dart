@@ -1,8 +1,10 @@
-import '../../../core/network/api_client.dart';
-import 'user_model.dart';
+// data/user_repository.dart
 
-import '../../../core/network/api_client.dart';
-import 'user_model.dart';
+import 'package:prueba_api/Feactures/login/Data/Mapper/user_mapper.dart';
+import 'package:prueba_api/Feactures/login/Domain/Entities/user_model.dart';
+import 'package:prueba_api/core/network/api_client.dart';
+
+
 
 class UserRepository {
   final ApiClient apiClient;
@@ -10,17 +12,17 @@ class UserRepository {
   UserRepository(this.apiClient);
 
   Future<List<UserModel>> getUsers() async {
-    try {
+    try
+    {
       final response = await apiClient.get('/users');
-
-      print("📡 Respuesta de la API: ${response.data}"); // Debug: Ver datos crudos
+      print("📡 Respuesta de la API: ${response.data}");
 
       if (response.data is List) {
         final users = (response.data as List)
-            .map((json) => UserModel.fromJson(json))
+            .map((json) => UserMapper.fromJson(json)) // Usamos el mapper
             .toList();
 
-        print("✅ Usuarios obtenidos: $users"); // Debug: Ver si los datos se procesan bien
+        print("✅ Usuarios obtenidos: $users");
         return users;
       } else {
         print("⚠️ Respuesta inesperada de la API: ${response.data}");
@@ -34,8 +36,8 @@ class UserRepository {
 
   Future<void> createUser(UserModel user) async {
     try {
-      await apiClient.post('/users', user.toJson());
-      print("✅ Usuario creado: ${user.toJson()}");
+      await apiClient.post('/users', UserMapper.toJson(user)); // Usamos el mapper
+      print("✅ Usuario creado: ${UserMapper.toJson(user)}");
     } catch (e) {
       print("❌ Error al crear usuario: $e");
     }
@@ -43,8 +45,8 @@ class UserRepository {
 
   Future<void> updateUser(UserModel user) async {
     try {
-      await apiClient.put('/users/${user.id}', user.toJson());
-      print("✅ Usuario actualizado: ${user.toJson()}");
+      await apiClient.put('/users/${user.id}', UserMapper.toJson(user)); // Usamos el mapper
+      print("✅ Usuario actualizado: ${UserMapper.toJson(user)}");
     } catch (e) {
       print("❌ Error al actualizar usuario: $e");
     }

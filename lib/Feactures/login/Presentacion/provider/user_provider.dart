@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:prueba_api/Feactures/login/Domain/Entities/user_model.dart';
+import 'package:prueba_api/Feactures/login/Data/Repository/user_repository.dart';
 import 'package:prueba_api/core/di/injection.dart';
 import 'package:prueba_api/core/network/api_client.dart';
-import '../../data/user_repository.dart';
-import '../../data/user_model.dart';
+
 
 // 1️⃣ Proveedor para ApiClient
 final apiClientProvider = Provider<ApiClient>((ref) {
