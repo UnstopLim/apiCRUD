@@ -1,26 +1,39 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:prueba_api/Feactures/login/Domain/Entities/user_model.dart';
 import 'package:prueba_api/Feactures/login/Data/Repository/user_repository.dart';
-import 'package:prueba_api/core/di/injection.dart';
 import 'package:prueba_api/core/network/api_client.dart';
 
-
-// 1️⃣ Proveedor para ApiClient
 final apiClientProvider = Provider<ApiClient>((ref) {
   return ApiClient();
 });
 
-// 2️⃣ Proveedor para UserRepository, usando apiClientProvider
 final userRepositoryProvider = Provider<UserRepository>((ref) {
   return UserRepository(ref.watch(apiClientProvider));
 });
 
-// 3️⃣ Proveedor para obtener usuarios
+final userUseCasesProvider = Provider((ref) {
+  return UserRepository(ref.watch(apiClientProvider));
+});
+
+// Proveedor para obtener la lista de usuarios
 final usersProvider = FutureProvider<List<UserModel>>((ref) async {
-  try {
-    return await ref.watch(userRepositoryProvider).getUsers();
-  } catch (e) {
-    print("❌ Error cargando usuarios: $e");
-    return [];
-  }
+  return await ref.watch(userRepositoryProvider).getUsers();
+});
+
+// Provider para agregar un usuario
+final createUserProvider = FutureProvider.family<void, UserModel>((ref, user) async {
+  await ref.watch(userRepositoryProvider).createUser(user);
+  ref.invalidate(usersProvider); // Recargar lista
+});
+
+// Provider para actualizar un usuario
+final updateUserProvider = FutureProvider.family<void, UserModel>((ref, user) async {
+  await ref.watch(userRepositoryProvider).updateUser(user);
+  ref.invalidate(usersProvider);
+});
+
+// Provider para eliminar un usuario
+final deleteUserProvider = FutureProvider.family<void, int>((ref, id) async {
+  await ref.watch(userRepositoryProvider).deleteUser(id);
+  ref.invalidate(usersProvider);
 });
