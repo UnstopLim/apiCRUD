@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:prueba_api/Core/di/injection.dart';
+import 'package:prueba_api/Feactures/Inscripccion/Presentacion/pages/prueba.dart';
+import 'package:prueba_api/Feactures/Inscripccion/Presentacion/pages/prueba2.dart';
 import 'package:prueba_api/Feactures/login/Presentacion/Pages/user_screen.dart';
 
 void main() {
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: UserScreen(),
+      home: Incripcion2(),
     );
   }
 }

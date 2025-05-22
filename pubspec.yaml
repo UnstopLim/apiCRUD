@@ -41,6 +41,16 @@ dependencies:
   freezed: ^2.5.8
   json_serializable: ^6.9.4
   get_it: ^8.0.3
+  #para camara
+  camera: ^0.10.5+9
+  google_mlkit_document_scanner: ^0.4.0
+  google_mlkit_text_recognition: ^0.15.0
+  path_provider: ^2.1.2
+  path: ^1.8.3
+  permission_handler: ^11.3.0
+
+
+
 
 dev_dependencies:
   flutter_test:
